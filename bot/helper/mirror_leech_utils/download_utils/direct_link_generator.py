@@ -317,9 +317,23 @@ def direct_link_generator(link):
         ]
     ):
         raise DirectDownloadLinkException(f"ERROR: R.I.P {domain}")
+        elif "epdexx.com" in domain:
+        try:
+            from curl_cffi import requests as cffi_requests
+            session = cffi_requests.Session(impersonate="chrome110")
+            resp = session.head(link, allow_redirects=True, timeout=15)
+            cookies = "; ".join([f"{k}={v}" for k, v in resp.cookies.items()])
+            headers = [
+                "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                f"Referer: https://{domain}/",
+            ]
+            if cookies:
+                headers.append(f"Cookie: {cookies}")
+            return link, headers
+        except Exception as e:
+            raise DirectDownloadLinkException(f"ERROR: epdexx: {e}")
     else:
         raise DirectDownloadLinkException(f"No Direct link function found for {link}")
-
 
 def get_captcha_token(session, params):
     recaptcha_api = "https://www.google.com/recaptcha/api2"
