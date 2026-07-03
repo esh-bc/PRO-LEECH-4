@@ -9,7 +9,7 @@ BOT_TOKEN = "8814566386:AAG-4b8LwhWzzlqBm_0zuxfvPL1I4wVRKYA"
 OWNER_ID = 8264404281
 TELEGRAM_API = 30439917
 TELEGRAM_HASH = "4f408081dbb976a9943ada5b551288b7"
-DATABASE_URL = "mongodb+srv://singhyashraj:leechbotxesh@cluster0.i1ruod.mongodb.net/?appName=Cluster0"  # mongodb:// or mongodb+srv:// URI
+DATABASE_URL = "mongodb+srv://Esh:1234567890ukwhat@cluster0.mnbnc7a.mongodb.net/?appName=Cluster0"  # mongodb:// or mongodb+srv:// URI
 
 # General
 DEFAULT_LANG = "en"
@@ -28,8 +28,8 @@ LOGIN_PASS = ""
 # Status & defaults
 STATUS_LIMIT = 5
 STATUS_UPDATE_INTERVAL = 10
-DEFAULT_UPLOAD = "rc"  # "rc" | "gd" | "ddl"
-INCOMPLETE_TASK_NOTIFIER = False
+DEFAULT_UPLOAD = "gd"  # "rc" | "gd" | "ddl"
+INCOMPLETE_TASK_NOTIFIER = True
 EXCLUDED_EXTENSIONS = ""
 
 # Bot behavior
@@ -40,7 +40,7 @@ SAFE_MODE = False
 STRICT_AUTH_MODE = False
 STRICT_FILE_MODE = False
 MEDIA_STORE = True
-DELETE_LINKS = True
+DELETE_LINKS = False
 CLEAN_LOG_MSG = False
 
 # Disable feature surfaces
@@ -52,25 +52,25 @@ DISABLE_SEED = False
 DISABLE_FF_MODE = False
 
 # Limiters (0 = unlimited)
-BOT_MAX_TASKS = 0
-USER_MAX_TASKS = 0
+BOT_MAX_TASKS = 10
+USER_MAX_TASKS = 3
 USER_TIME_INTERVAL = 0
 VERIFY_TIMEOUT = 21600
 
 # Task size limits in GB (0 = unlimited)
-DIRECT_LIMIT = 0
-MEGA_LIMIT = 0
-TORRENT_LIMIT = 0
-GDRIVE_LIMIT = 0  # download + upload
-RCLONE_LIMIT = 0  # download + upload
-CLONE_LIMIT = 0
+DIRECT_LIMIT = 25
+MEGA_LIMIT = 25
+TORRENT_LIMIT = 25
+GDRIVE_LIMIT = 25  # download + upload
+RCLONE_LIMIT = 25  # download + upload
+CLONE_LIMIT = 25
 JD_LIMIT = 0
-YTDLP_LIMIT = 0
-PLAYLIST_LIMIT = 0
-LEECH_LIMIT = 0
-EXTRACT_LIMIT = 0
-ARCHIVE_LIMIT = 0
-STORAGE_LIMIT = 0  # min free disk GB
+YTDLP_LIMIT = 25
+PLAYLIST_LIMIT = 25
+LEECH_LIMIT = 25
+EXTRACT_LIMIT = 25
+ARCHIVE_LIMIT = 25
+STORAGE_LIMIT = 8  # min free disk GB
 
 # Queueing (0 = no cap)
 QUEUE_ALL = 0
@@ -127,7 +127,7 @@ JD_MODE = False
 
 # Google Drive
 GDRIVE_ID = ""
-GD_DESP = "Uploaded with PRO-LEECH 0_-"
+GD_DESP = "Uploaded with PRO-LEECH_1 0_-"
 IS_TEAM_DRIVE = False
 USER_TD_MODE = False
 USER_TD_SA = ""
