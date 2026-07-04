@@ -85,15 +85,15 @@ async def start(_, message):
             )
             return await send_message(message, msg, reply_markup)
 
-    if await CustomFilters.authorized(_, message):
+        if await CustomFilters.authorized(_, message):
         start_string = BotTheme(
             "ST_MSG", help_command=f"/{BotCommands.HelpCommand[0]}"
         )
-        await send_message(message, start_string, reply_markup)
+        await send_message(message, start_string, reply_markup, photo="bot/images/verified.jpg")
     elif Config.BOT_PM:
-        await send_message(message, BotTheme("ST_BOTPM"), reply_markup)
+        await send_message(message, BotTheme("ST_BOTPM"), reply_markup, photo="bot/images/verified.jpg")
     else:
-        await send_message(message, BotTheme("ST_UNAUTH"), reply_markup)
+        await send_message(message, BotTheme("ST_UNAUTH"), reply_markup, photo="bot/images/verified.jpg")
     await database.set_pm_users(userid)
 
 
