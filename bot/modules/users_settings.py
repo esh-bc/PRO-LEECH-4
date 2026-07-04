@@ -1220,7 +1220,7 @@ async def get_user_settings(from_user, stype="main"):
 async def update_user_settings(query, stype="main"):
     handler_dict[query.from_user.id] = False
     msg, button = await get_user_settings(query.from_user, stype)
-    await edit_message(query.message, msg, button)
+        await send_message(message, msg, button, photo="bot/images/usersettings.jpg")
 
 
 @new_task
