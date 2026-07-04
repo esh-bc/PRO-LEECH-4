@@ -801,6 +801,7 @@ class TaskListener(TaskConfig):
         await start_from_queued()
 
     async def on_download_error(self, error, button=None, is_limit=False):
+        task_failed_photo = choice(glob("bot/images/task_failed/*"))
         await self.remove_processing()
         async with task_dict_lock:
             if self.mid in task_dict:
