@@ -85,7 +85,7 @@ async def start(_, message):
             )
             return await send_message(message, msg, reply_markup)
 
-        if await CustomFilters.authorized(_, message):
+    if await CustomFilters.authorized(_, message):
         start_string = BotTheme(
             "ST_MSG", help_command=f"/{BotCommands.HelpCommand[0]}"
         )
@@ -210,7 +210,7 @@ async def log_cb(_, query):
                 if total > 3500:
                     break
 
-            text = f"<b>Showing Last {len(res)} Lines from log.txt:</b> \n\n----------<b>START LOG</b>----------\n\n<blockquote expandable>{escape('\n'.join(reversed(res)))}</blockquote>\n----------<b>END LOG</b>----------"
+            text = f"<b>Showing Last {len(res)} Lines from log.txt:</b> \n\n----------<b>START LOG</b>----------\n\n<blockquote expandable>{escape(chr(10).join(reversed(res)))}</blockquote>\n----------<b>END LOG</b>----------"
 
             btn = ButtonMaker()
             btn.data_button("Close", f"log {user_id} close")
