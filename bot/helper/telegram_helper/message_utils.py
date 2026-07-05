@@ -141,11 +141,16 @@ async def send_message(message, text, buttons=None, block=True, photo=None, _rec
 
 async def edit_message(message, text, buttons=None, block=True, _recursion_depth=0):
     try:
+        if message.photo or message.document or message.video or message.audio:
+            return await message.edit_caption(
+                caption=text,
+                reply_markup=buttons,
+            )
         return await message.edit(
             text=text,
             disable_web_page_preview=True,
             reply_markup=buttons,
-        )
+    )
     except (MessageNotModified, MessageEmpty):
         pass
     except (ReplyMarkupInvalid, ButtonUrlInvalid, ButtonDataInvalid) as rmi:
