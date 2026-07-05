@@ -1295,7 +1295,7 @@ async def remove_one(_, message, option, rfunc):
     user_id = message.from_user.id
     handler_dict[user_id] = False
     user_dict = user_data.get(user_id, {})
-     names = (message.text or message.caption or "").split("/")
+    names = (message.text or message.caption or "").split("/")
     for name in names:
         if name in user_dict[option]:
             del user_dict[option][name]
