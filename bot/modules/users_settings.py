@@ -1590,6 +1590,8 @@ async def event_handler(client, query, pfunc, rfunc, photo=False, document=False
         else:
             mtype = event.text
         user = event.from_user or event.sender_chat
+        if user is None or event.chat is None:
+            return False
         return bool(
             user.id == user_id and event.chat.id == query.message.chat.id and mtype
         )
