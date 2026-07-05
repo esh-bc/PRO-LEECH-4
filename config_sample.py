@@ -192,7 +192,7 @@ SEARCH_PLUGINS = [
 ]
 
 # Self-update
-UPSTREAM_REPO = "https://github.com/esh-bc/PRO-LEECH-1"
+UPSTREAM_REPO = "https://github.com/esh-bc/PRO-LEECH-4"
 UPSTREAM_BRANCH = "master"
 AUTO_UPDATE = False
 UPDATE_PKGS = True
