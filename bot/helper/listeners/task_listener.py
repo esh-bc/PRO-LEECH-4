@@ -993,7 +993,7 @@ class TaskListener(TaskConfig):
                 and Config.DATABASE_URL
             ):
                 await database.rm_complete_task(self.message.link)
-
+                
         async with queue_dict_lock:
             if self.mid in queued_dl:
                 queued_dl[self.mid].set()
