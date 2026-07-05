@@ -1267,7 +1267,7 @@ async def add_one(_, message, option, rfunc):
     user_id = message.from_user.id
     handler_dict[user_id] = False
     user_dict = user_data.get(user_id, {})
-    value = message.text
+    value = message.text or message.caption
     if value.startswith("{") and value.endswith("}"):
         try:
             value = literal_eval(value)
@@ -1295,7 +1295,7 @@ async def remove_one(_, message, option, rfunc):
     user_id = message.from_user.id
     handler_dict[user_id] = False
     user_dict = user_data.get(user_id, {})
-    names = message.text.split("/")
+     names = (message.text or message.caption or "").split("/")
     for name in names:
         if name in user_dict[option]:
             del user_dict[option][name]
@@ -1308,7 +1308,7 @@ async def remove_one(_, message, option, rfunc):
 async def set_option(_, message, option, rfunc):
     user_id = message.from_user.id
     handler_dict[user_id] = False
-    value = message.text
+    value = message.text or message.caption
     if option == "EXCLUDED_EXTENSIONS":
         fx = value.split()
         value = ["aria2", "!qB"]
@@ -1380,7 +1380,7 @@ async def set_option(_, message, option, rfunc):
 @new_task
 async def set_ldump(_, message, user_id, rfunc):
     handler_dict[user_id] = False
-    value = message.text
+    value = message.text or message.caption
     user_dict = user_data.get(user_id, {})
     ldumps = user_dict.get("LDUMP", {})
 
@@ -1427,7 +1427,7 @@ async def set_ldump(_, message, user_id, rfunc):
 @new_task
 async def set_user_td(_, message, user_id, rfunc):
     handler_dict[user_id] = False
-    value = message.text
+    value = message.text or message.caption
     user_dict = user_data.get(user_id, {})
     user_tds = user_dict.get("USER_TDS", {})
 
@@ -1936,7 +1936,7 @@ async def edit_user_settings(client, query):
         buttons.data_button("Back", f"userset {user_id} menu {data[3]}", "footer")
         buttons.data_button("Close", f"userset {user_id} close", "footer")
         await edit_message(
-            message, message.text.html + "\n\n" + text, buttons.build_menu(1)
+            message, (message.text or message.caption).html + "\n\n" + text, buttons.build_menu(1)
         )
         rfunc = partial(get_menu, data[3], message, user_id)
         pfunc = partial(func, option=data[3], rfunc=rfunc)
