@@ -817,10 +817,13 @@ class TaskConfig:
         LOGGER.info(f"Extracting: {self.name}")
         async with task_dict_lock:
             task_dict[self.mid] = SevenZStatus(self, sevenz, gid, "Extract")
+        t_path = dl_path        # always defined; safe default if no archive is found
+        extraction_ok = False   # tracks real success across all directory iterations
+
         for dirpath, _, files in await sync_to_async(
             walk, self.up_dir or self.dir, topdown=False
         ):
-            code = 0
+            dir_code = 0        # per-directory only; used for cleanup decision, never as global success flag
             for file_ in files:
                 if self.is_cancelled:
                     return False
@@ -834,18 +837,25 @@ class TaskConfig:
                     t_path = get_base_name(f_path) if self.is_file else dirpath
                     if not self.is_file:
                         self.subname = file_
-                    code = await sevenz.extract(f_path, t_path, pswd)
+                    dir_code = await sevenz.extract(f_path, t_path, pswd)
+                    if dir_code == 0:
+                        extraction_ok = True
+                    else:
+                        LOGGER.error(f"Extraction failed for: {f_path} — 7z exit code {dir_code}")
             if self.is_cancelled:
-                return code
-            if code == 0:
+                return False
+            if dir_code == 0:
                 for file_ in files:
                     if is_archive_split(file_) or is_archive(file_):
                         del_path = ospath.join(dirpath, file_)
                         try:
                             await remove(del_path)
-                        except Exception:
-                            self.is_cancelled = True
-        return t_path if self.is_file and code == 0 else dl_path
+                        except Exception as e:
+                            LOGGER.warning(f"Could not remove archive after extraction: {del_path} — {e}")
+
+        if not extraction_ok:
+            return dl_path
+        return t_path if self.is_file else dl_path
 
     async def proceed_ffmpeg(self, dl_path, gid):
         checked = False
