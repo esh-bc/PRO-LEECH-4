@@ -299,8 +299,17 @@ class TaskListener(TaskConfig):
             await join_files(up_path)
 
         if self.extract:
+            pre_extract_path = up_path
             up_path = await self.proceed_extract(up_path, gid)
             if self.is_cancelled:
+                return
+            if up_path == pre_extract_path and await aiopath.isfile(up_path):
+                # extraction returned the original file — 7z failed
+                LOGGER.error(f"Extraction produced no output for: {self.name}")
+                await self.on_upload_error(
+                    f"Extraction failed for <b>{self.name}</b>. "
+                    "Check that the archive is valid and not password-protected."
+                )
                 return
             self.is_file = await aiopath.isfile(up_path)
             self.name = up_path.replace(f"{up_dir}/", "").split("/", 1)[0]
