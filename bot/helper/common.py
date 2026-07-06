@@ -408,7 +408,12 @@ class TaskConfig:
         self.metadata_title = self.user_dict.get("METADATA")
 
         if not self.merge_video:
-            self.merge_video = self.user_dict.get("MERGE_VIDEO", False)
+            user_merge = self.user_dict.get("MERGE_VIDEO", False)
+            # Only inherit user default if the task is a leech and the downloaded
+            # content will actually be a folder (merge is meaningless on a single file).
+            # This prevents the setting from silently triggering on every task.
+            if user_merge and self.is_leech:
+                self.merge_video = True
 
         if not self.is_leech:
             self.stop_duplicate = (
