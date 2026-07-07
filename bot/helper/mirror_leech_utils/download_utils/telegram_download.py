@@ -38,6 +38,7 @@ class TelegramDownloadHelper:
         self._gid = ""
         self.session = ""
         self._hyper_dl = len(TgClient.helper_bots) != 0 and Config.LEECH_DUMP_CHAT
+        self._hyper_dl_instance = None
 
     async def _release_global_gid(self):
         if not self._id:
@@ -76,6 +77,8 @@ class TelegramDownloadHelper:
 
     async def _on_download_progress(self, current, _):
         if self._listener.is_cancelled:
+            if self._hyper_dl_instance is not None:
+                self._hyper_dl_instance._cancel_event.set()
             if self.session == "user":
                 TgClient.user.stop_transmission()
             elif self.session == "hbots":
@@ -98,7 +101,9 @@ class TelegramDownloadHelper:
         try:
             if self._hyper_dl:
                 try:
-                    download = await HyperTGDownload().download_media(
+                    _hyper = HyperTGDownload()
+                    self._hyper_dl_instance = _hyper
+                    download = await _hyper.download_media(
                         message,
                         file_name=path,
                         progress=self._on_download_progress,
