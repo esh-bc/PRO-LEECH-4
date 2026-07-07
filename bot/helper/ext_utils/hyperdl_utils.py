@@ -348,6 +348,7 @@ class HyperTGDownload:
                         if self._cancel_event.is_set():
                             raise CancelledError("Download cancelled")
                         await f.write(chunk)
+                self._processed_bytes += len(chunk)
                 return part_index, part_file_path
             except (AsyncTimeoutError, ConnectionError):
                 if attempt == max_retries - 1:
