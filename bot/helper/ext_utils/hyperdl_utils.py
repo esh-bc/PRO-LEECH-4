@@ -353,8 +353,11 @@ class HyperTGDownload:
             except (AsyncTimeoutError, ConnectionError):
                 if attempt == max_retries - 1:
                     raise
+                self._processed_bytes -= part_bytes_this_attempt
+                if self._processed_bytes < 0:
+                    self._processed_bytes = 0
+                part_bytes_this_attempt = 0
                 await sleep((attempt + 1) * 2)
-                self._processed_bytes = 0
 
     async def handle_download(self, progress, progress_args):
         self._cancel_event.clear()
